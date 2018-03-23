@@ -1,18 +1,26 @@
-export default ({ body, title, initialState }) => {
+export default () => {
   return `
     <!DOCTYPE html>
     <html>
       <head>
-        <script>window.__APP_INITIAL_STATE__ = ${initialState}</script>
-        <title>${title}</title>
-        <link rel="stylesheet" href="/assets/index.css" />
+        <title>From Server</title>
+        <!--<link rel="stylesheet" href="/assets/index.css" />-->
       </head>
-      
       <body>
-        <div id="root">${body}</div>
+        <div id="c1"></div>
+        
+        <div>Anderer HTML Content</div>
+        
+        <div id="c2"></div>
+        
+         <div id="APP_INITIAL_STATE">
+          {
+            "c1": {"type": "TestComponent", "props": {"text": "Das ist Component 1"}},
+            "c2": {"type": "TestComponent", "props": {"text": "Das ist Component 2"}}
+          }
+        </div>
+        <script src="/assets/bundle.js"></script>
       </body>
-      
-      <script src="/assets/bundle.js"></script>
     </html>
   `;
 };
