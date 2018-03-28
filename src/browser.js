@@ -9,11 +9,11 @@ const componentClass = {
   StateComponent,
 };
 
-const components = window.__APP_INITIAL_STATE__;
+const stateText = document.getElementById('app-initial-state').innerHTML;
+const components = JSON.parse(stateText);
 
 for (let id in components) {
   const Component = componentClass[components[id].type];
   const element = React.createElement(Component, components[id].props);
   hydrate(element, document.getElementById(id));
 }
-

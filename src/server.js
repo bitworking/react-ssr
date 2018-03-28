@@ -3,7 +3,6 @@ import React from 'react';
 import { renderToString } from 'react-dom/server';
 import cheerio from 'cheerio';
 import template from './template';
-import {hydrate} from 'react-dom';
 
 import TestComponent from './TestComponent';
 import StateComponent from './StateComponent';
@@ -18,10 +17,10 @@ server.use('/assets', express.static('assets'));
 
 server.get('/', (req, res) => {
   const html = template();
-  const $ = cheerio.load(html);
-  
-  const stateElement = $('#APP_INITIAL_STATE');
-  const stateText = stateElement.text();
+  const $ = cheerio.load(html, {xmlMode: false});
+
+  const stateElement = $('#app-initial-state');
+  const stateText = stateElement.html();
   const components = JSON.parse(stateText);
 
   for (let id in components) {
@@ -30,8 +29,6 @@ server.get('/', (req, res) => {
     const componentString = renderToString(element);
     $('#'+id).html(componentString);
   }
-
-  stateElement.replaceWith($('<script>window.__APP_INITIAL_STATE__ = '+stateText+'</script>'));
 
   res.send($.html());
 });
